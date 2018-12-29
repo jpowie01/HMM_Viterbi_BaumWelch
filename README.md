@@ -9,6 +9,7 @@ algorithms implementation in Python 3.6+ using Numpy.
 ```bash
 $ virtualenv -p python3.6 venv
 $ . ./venv/bin/activate
+(venv) $ pip install numpy
 (venv) $ python main.py
 ```
 

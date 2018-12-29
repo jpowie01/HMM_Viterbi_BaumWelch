@@ -3,6 +3,7 @@ import numpy as np
 import dice
 import croupier
 
+np.set_printoptions(precision=3)
 
 # Prepare environment for our simulation
 fair_dice = dice.Dice(np.array([1/6, 1/6, 1/6, 1/6, 1/6, 1/6]))
@@ -28,33 +29,98 @@ observations = np.array(observations)
 #
 
 # Initial probabilities of each dices depends on random choise of croupier and probability of an observation
-dices_probabilites = np.zeros([observations.shape[0], 2])
-dices_probabilites[0] = np.array([
+viterbi_probabilities = np.zeros([observations.shape[0], 2])
+viterbi_probabilities[0] = np.array([
     initial_dice_probability[0] * fair_dice.probabilities[observations[0]],
     initial_dice_probability[1] * loaded_dice.probabilities[observations[0]],
 ])
-print('Probabilities:', dices_probabilites[0], 'Observation:', observations[0], 'Guess:', np.argmax(dices_probabilites[0]), 'Real:', used_dices[0])
 
 # Iterativly compute dice probabilities based on previous observations and probabilities
 for t, observation in enumerate(observations[1:], 1):
-    dices_probabilites[t] = np.array([
-        np.max([
+    viterbi_probabilities[t] = np.array([
+        fair_dice.probabilities[observation] * np.max([
             # Previously we've used fair dice and now we use fair dice
-            dices_probabilites[t-1][0] * transition_matrix[0, 0] * fair_dice.probabilities[observation],
-            # Previously we've used fair dice and now we use loaded dice
-            dices_probabilites[t-1][0] * transition_matrix[0, 1] * loaded_dice.probabilities[observation],
-        ]),
-        np.max([
+            viterbi_probabilities[t-1][0] * transition_matrix[0, 0],
             # Previously we've used loaded dice and now we use fair dice
-            dices_probabilites[t-1][1] * transition_matrix[1, 0] * fair_dice.probabilities[observation],
+            viterbi_probabilities[t-1][1] * transition_matrix[1, 0],
+        ]),
+        loaded_dice.probabilities[observation] * np.max([
+            # Previously we've used fair dice and now we use loaded dice
+            viterbi_probabilities[t-1][0] * transition_matrix[0, 1],
             # Previously we've used loaded dice and now we use loaded dice
-            dices_probabilites[t-1][1] * transition_matrix[1, 1] * loaded_dice.probabilities[observation],
+            viterbi_probabilities[t-1][1] * transition_matrix[1, 1],
         ]),
     ])
 
     # Normalize current probabilities, so that values won't be too low over time
-    dices_probabilites[t] /= np.sum(dices_probabilites[t])
+    viterbi_probabilities[t] /= np.sum(viterbi_probabilities[t])
 
-    # Print current dice prediction
-    print('Probabilities:', dices_probabilites[t], 'Observation:', observation, 'Guess:', np.argmax(dices_probabilites[t]), 'Real:', used_dices[t])
+#
+# Forward Algorithm
+#
 
+# Initial probabilities for alpha equals probability of random choise of a given dice and roll of given observation
+alpha_probabilities = np.zeros([observations.shape[0], 2])
+alpha_probabilities[0] = np.array([
+    initial_dice_probability[0] * fair_dice.probabilities[observations[0]],
+    initial_dice_probability[1] * loaded_dice.probabilities[observations[0]],
+])
+
+# Iterativly compute probabilities based on previous ones
+for t, observation in enumerate(observations[1:], 1):
+    alpha_probabilities[t] = np.array([
+        fair_dice.probabilities[observation] * np.sum([
+            # Previously we've used fair dice and now we use fair dice
+            alpha_probabilities[t-1][0] * transition_matrix[0, 0],
+            # Previously we've used loaded dice and now we use fair dice
+            alpha_probabilities[t-1][1] * transition_matrix[1, 0]
+        ]),
+        loaded_dice.probabilities[observation] * np.sum([
+            # Previously we've used fair dice and now we use loaded dice
+            alpha_probabilities[t-1][0] * transition_matrix[0, 1],
+            # Previously we've used loaded dice and now we use loaded dice
+            alpha_probabilities[t-1][1] * transition_matrix[1, 1]
+        ]),
+    ])
+
+    # Normalize current probabilities, so that values won't be too low over time
+    alpha_probabilities[t] /= np.sum(alpha_probabilities[t])
+
+#
+# Backward Algorithm
+#
+
+# Initial probabilities for beta equals to 1 for each dice. Keep in mind that we need to iterate from the back!
+beta_probabilities = np.zeros([observations.shape[0], 2])
+beta_probabilities[observations.shape[0]-1] = np.array([1, 1])
+
+for t, observation in reversed(list(enumerate(observations))[1:]):
+    beta_probabilities[t-1] = np.array([
+        np.sum([
+            # In the observation T croupier used fair dice and fair dice in T-1
+            transition_matrix[0, 0] * fair_dice.probabilities[observation] * beta_probabilities[t][0],
+            # In the observation T croupier used loaded dice and fair dice in T-1
+            transition_matrix[0, 1] * loaded_dice.probabilities[observation] * beta_probabilities[t][1],
+        ]),
+        np.sum([
+            # In the observation T croupier used fair dice and loaded dice in T-1
+            transition_matrix[1, 0] * fair_dice.probabilities[observation] * beta_probabilities[t][0],
+            # In the observation T croupier used loaded dice and loaded dice in T-1
+            transition_matrix[1, 1] * loaded_dice.probabilities[observation] * beta_probabilities[t][1],
+        ]),
+    ])
+
+    # Again, as previously, normalize all probabilities, so that values won't be too low over time
+    beta_probabilities[t-1] /= np.sum(beta_probabilities[t-1])
+
+# Now, let's calculate aposteriori probabilities based on alphas and betas
+aposteriori_probabilities = np.multiply(alpha_probabilities, beta_probabilities)
+
+#
+# Summary of above algorithms
+#
+
+# Print all the things we've collected so far
+for t in range(observations.shape[0]):
+    print(f'Observation: {observations[t]} Dice: {used_dices[t]} | Viterbi: {viterbi_probabilities[t]} Guess: {np.argmax(viterbi_probabilities[t])} '
+          f'| Alpha: {alpha_probabilities[t]} | Beta: {beta_probabilities[t]} | Aposteriori: {aposteriori_probabilities[t]} Guess: {np.argmax(aposteriori_probabilities[t])}')

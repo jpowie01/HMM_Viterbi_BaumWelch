@@ -1,5 +1,5 @@
 Hidden Markov Models - Viterbi & Baum-Welch Algorithms
-------------------------------------------------------
+======================================================
 
 This repository presents example implementation for Viterbi and Baum-Welch
 algorithms implementation in Python 3.6+ using Numpy.
@@ -13,7 +13,7 @@ $ . ./venv/bin/activate
 (venv) $ python main.py
 ```
 
-#### Example output
+### Example output
 
 For such an environment:
 
@@ -133,3 +133,18 @@ Observation: 5 Dice: 0 | Viterbi: [0.259 0.741] Guess: 1 | Alpha: [0.296 0.704] 
 Observation: 5 Dice: 0 | Viterbi: [0.109 0.891] Guess: 1 | Alpha: [0.153 0.847] | Beta: [1. 1.] | Aposteriori: [0.153 0.847] Guess: 1
 ```
 
+## Resources
+Great explanation of Viterbi Algorithm (starting about 22:40):  
+https://www.youtube.com/watch?v=kqSzLo9fenk
+
+Simple implementation for weather example from above video:  
+https://github.com/luisguiserrano/hmm/blob/master/Simple%20HMM.ipynb
+
+Good explanation of Forward & Backward algorithms:  
+https://www.youtube.com/watch?v=9yl4XGp5OEg
+
+Great slides with visual interpretation of all equations:  
+http://www.cs.tut.fi/~sgn24006/PDF/L08-HMMs.pdf
+
+Tutorial on Hidden Markov Models:  
+http://www.stat.columbia.edu/~liam/teaching/neurostat-fall17/papers/hmm/rabiner.pdf

@@ -6,10 +6,7 @@ import numpy as np
 
 import dice
 import utils
-
-
-FAIR_DICE = 0
-LOADED_DICE = 1
+from dice_type import DiceType
 
 
 class Croupier:
@@ -26,7 +23,7 @@ class Croupier:
         self.current_dice = utils.weightned_random(self.transition_matrix[self.current_dice])
 
         # Let's roll the dice!
-        if self.current_dice == FAIR_DICE:
+        if self.current_dice == DiceType.FAIR:
             return self.current_dice, self.fair_dice.get_next_value()
         else:
             return self.current_dice, self.loaded_dice.get_next_value()

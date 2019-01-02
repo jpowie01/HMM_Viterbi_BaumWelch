@@ -1,5 +1,3 @@
-import enum
-import random
 from typing import Tuple
 
 import numpy as np
@@ -16,11 +14,11 @@ class Croupier:
         self.loaded_dice = loaded_dice
         self.initial_dice_probability = initial_dice_probability
         self.transition_matrix = transition_matrix
-        self.current_dice = utils.weightned_random(self.initial_dice_probability)
+        self.current_dice = utils.weighted_random(self.initial_dice_probability)
 
     def get_next_value(self) -> Tuple[int, int]:
         # Try to switch between dices
-        self.current_dice = utils.weightned_random(self.transition_matrix[self.current_dice])
+        self.current_dice = utils.weighted_random(self.transition_matrix[self.current_dice])
 
         # Let's roll the dice!
         if self.current_dice == DiceType.FAIR:

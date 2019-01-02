@@ -6,12 +6,12 @@ from dice_type import DiceType
 
 np.set_printoptions(precision=3)
 
-OBSERVATIONS = 300
+OBSERVATIONS = 100
 DICE_TYPES = 2
 
 # Prepare environment for our simulation
-fair_dice = dice.Dice(np.array([0, 0, 0, 0, 0, 1]))
-loaded_dice = dice.Dice(np.array([1/5, 1/5, 1/5, 1/5, 1/5, 0]))
+fair_dice = dice.Dice(np.array([1/6, 1/6, 1/6, 1/6, 1/6, 1/6]))
+loaded_dice = dice.Dice(np.array([1/10, 1/10, 1/10, 1/10, 1/10, 1/2]))
 initial_dice_probability = np.array([0.5, 0.5])  # Croupier can use either of dices initially
 transition_matrix = np.array([
     [0.95, 0.05],  # Fair -> Fair = 0.95, Fair -> Loaded = 0.05

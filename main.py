@@ -33,14 +33,14 @@ observations_rows = observations.shape[0]
 # Viterbi Algorithm
 #
 
-# Initial probabilities of each dices depends on random choise of croupier and probability of an observation
+# Initial probabilities of each dices depends on random choice of croupier and probability of an observation
 viterbi_probabilities = np.zeros([observations_rows, DICE_TYPES])
 viterbi_probabilities[0] = np.array([
     initial_dice_probability[DiceType.FAIR] * fair_dice.probabilities[observations[0]],
     initial_dice_probability[DiceType.LOADED] * loaded_dice.probabilities[observations[0]],
 ])
 
-# Iterativly compute dice probabilities based on previous observations and probabilities
+# Iteratively compute dice probabilities based on previous observations and probabilities
 for t, observation in enumerate(observations[1:], 1):
     viterbi_probabilities[t] = np.array([
         fair_dice.probabilities[observation] * np.max([
@@ -64,14 +64,14 @@ for t, observation in enumerate(observations[1:], 1):
 # Forward Algorithm
 #
 
-# Initial probabilities for alpha equals probability of random choise of a given dice and roll of given observation
+# Initial probabilities for alpha equals probability of random choice of a given dice and roll of given observation
 alpha_probabilities = np.zeros([observations_rows, DICE_TYPES])
 alpha_probabilities[0] = np.array([
     initial_dice_probability[DiceType.FAIR] * fair_dice.probabilities[observations[0]],
     initial_dice_probability[DiceType.LOADED] * loaded_dice.probabilities[observations[0]],
 ])
 
-# Iterativly compute probabilities based on previous ones
+# Iteratively compute probabilities based on previous ones
 for t, observation in enumerate(observations[1:], 1):
     alpha_probabilities[t] = np.array([
         fair_dice.probabilities[observation] * np.sum([

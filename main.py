@@ -6,12 +6,12 @@ from dice_type import DiceType
 
 np.set_printoptions(precision=3)
 
-OBSERVATIONS = 100
+OBSERVATIONS = 300
 DICE_TYPES = 2
 
 # Prepare environment for our simulation
-fair_dice = dice.Dice(np.array([1/6, 1/6, 1/6, 1/6, 1/6, 1/6]))
-loaded_dice = dice.Dice(np.array([1/10, 1/10, 1/10, 1/10, 1/10, 1/2]))
+fair_dice = dice.Dice(np.array([0, 0, 0, 0, 0, 1]))
+loaded_dice = dice.Dice(np.array([1/5, 1/5, 1/5, 1/5, 1/5, 0]))
 initial_dice_probability = np.array([0.5, 0.5])  # Croupier can use either of dices initially
 transition_matrix = np.array([
     [0.95, 0.05],  # Fair -> Fair = 0.95, Fair -> Loaded = 0.05
@@ -128,4 +128,5 @@ aposteriori_probabilities = np.multiply(alpha_probabilities, beta_probabilities)
 # Print all the things we've collected so far
 for t in range(observations_rows):
     print(f'Observation: {observations[t]} Dice: {used_dices[t]} | Viterbi: {viterbi_probabilities[t]} Guess: {np.argmax(viterbi_probabilities[t])} '
-          f'| Alpha: {alpha_probabilities[t]} | Beta: {beta_probabilities[t]} | Aposteriori: {aposteriori_probabilities[t]} Guess: {np.argmax(aposteriori_probabilities[t])}')
+          f'| Alpha: {alpha_probabilities[t]} | Beta: {beta_probabilities[t]} | Aposteriori: {aposteriori_probabilities[t]} '
+          f'Guess: {np.argmax(aposteriori_probabilities[t])}')

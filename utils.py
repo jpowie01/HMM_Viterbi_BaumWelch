@@ -3,7 +3,7 @@ import random
 import numpy as np
 
 
-def weightned_random(probabilities: np.ndarray) -> int:
+def weighted_random(probabilities: np.ndarray) -> int:
     probability_so_far = 0.0
     random_value = random.random()
     for value, probability in enumerate(probabilities):

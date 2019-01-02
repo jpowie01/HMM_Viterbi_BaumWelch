@@ -1,5 +1,3 @@
-import random
-
 import numpy as np
 
 import utils
@@ -10,5 +8,5 @@ class Dice:
         self.probabilities = probabilities
 
     def get_next_value(self) -> int:
-        return utils.weightned_random(self.probabilities)
+        return utils.weighted_random(self.probabilities)
 

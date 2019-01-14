@@ -31,6 +31,9 @@ my_croupier = croupier.Croupier(fair_dice, loaded_dice, initial_dice_probability
 We get such analysis:
 
 ```
++---------------------------+
+|   Viterbi & Aposteriori   |
++---------------------------+
 Observation: 0 Dice: 1 | Viterbi: [0.083 0.05 ] Guess: 0 | Alpha: [0.083 0.05 ] | Beta: [0.301 0.699] | Aposteriori: [0.025 0.035] Guess: 1
 Observation: 2 Dice: 1 | Viterbi: [0.746 0.254] Guess: 0 | Alpha: [0.74 0.26] | Beta: [0.183 0.817] | Aposteriori: [0.135 0.212] Guess: 1
 Observation: 5 Dice: 1 | Viterbi: [0.508 0.492] Guess: 0 | Alpha: [0.473 0.527] | Beta: [0.329 0.671] | Aposteriori: [0.156 0.354] Guess: 1

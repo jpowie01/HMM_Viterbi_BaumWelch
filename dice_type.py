@@ -1,6 +1,8 @@
-from enum import IntEnum
+import enum
+
+AVAILABLE_DICES = 2
 
 
-class DiceType(IntEnum):
+class DiceType(enum.IntEnum):
     FAIR = 0
     LOADED = 1

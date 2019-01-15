@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import List, Tuple
 
 import numpy as np
 
@@ -26,3 +26,11 @@ class Croupier:
         else:
             return self._current_dice, self._loaded_dice.get_next_value()
 
+    def get_observations(self, number_of_observations: int) -> Tuple[np.ndarray, List[int]]:
+        used_dices = []
+        observations = []
+        for i in range(number_of_observations):
+            used_dice, dice_wall = self.get_next_value()
+            used_dices.append(used_dice)
+            observations.append(dice_wall)
+        return np.array(observations), used_dices

@@ -18,8 +18,8 @@ $ . ./venv/bin/activate
 For such an environment:
 
 ```python
-fair_dice = dice.Dice(np.array([1/6, 1/6, 1/6, 1/6, 1/6, 1/6]))
-loaded_dice = dice.Dice(np.array([1/10, 1/10, 1/10, 1/10, 1/10, 1/2]))
+fair_dice = dice.Dice(np.array([1/5, 1/5, 1/5, 1/5, 1/5, 0]))
+loaded_dice = dice.Dice(np.array([0, 0, 0, 0, 0, 1]))
 initial_dice_probability = np.array([0.5, 0.5])  # Croupier can use either of dices initially
 transition_matrix = np.array([
     [0.95, 0.05],  # Fair -> Fair = 0.95, Fair -> Loaded = 0.05
@@ -34,120 +34,733 @@ We get such analysis:
 +---------------------------+
 |   Viterbi & Aposteriori   |
 +---------------------------+
-Observation: 0 Dice: 1 | Viterbi: [0.083 0.05 ] Guess: 0 | Alpha: [0.083 0.05 ] | Beta: [0.301 0.699] | Aposteriori: [0.025 0.035] Guess: 1
-Observation: 2 Dice: 1 | Viterbi: [0.746 0.254] Guess: 0 | Alpha: [0.74 0.26] | Beta: [0.183 0.817] | Aposteriori: [0.135 0.212] Guess: 1
-Observation: 5 Dice: 1 | Viterbi: [0.508 0.492] Guess: 0 | Alpha: [0.473 0.527] | Beta: [0.329 0.671] | Aposteriori: [0.156 0.354] Guess: 1
-Observation: 5 Dice: 1 | Viterbi: [0.266 0.734] Guess: 1 | Alpha: [0.252 0.748] | Beta: [0.565 0.435] | Aposteriori: [0.142 0.325] Guess: 1
-Observation: 4 Dice: 1 | Viterbi: [0.39 0.61] Guess: 1 | Alpha: [0.433 0.567] | Beta: [0.451 0.549] | Aposteriori: [0.195 0.312] Guess: 1
-Observation: 5 Dice: 0 | Viterbi: [0.183 0.817] Guess: 1 | Alpha: [0.227 0.773] | Beta: [0.704 0.296] | Aposteriori: [0.16  0.229] Guess: 1
-Observation: 1 Dice: 0 | Viterbi: [0.283 0.717] Guess: 1 | Alpha: [0.408 0.592] | Beta: [0.638 0.362] | Aposteriori: [0.26  0.214] Guess: 0
-Observation: 0 Dice: 0 | Viterbi: [0.41 0.59] Guess: 1 | Alpha: [0.574 0.426] | Beta: [0.544 0.456] | Aposteriori: [0.312 0.194] Guess: 0
-Observation: 4 Dice: 0 | Viterbi: [0.55 0.45] Guess: 0 | Alpha: [0.704 0.296] | Beta: [0.425 0.575] | Aposteriori: [0.299 0.17 ] Guess: 0
-Observation: 1 Dice: 0 | Viterbi: [0.683 0.317] Guess: 0 | Alpha: [0.794 0.206] | Beta: [0.296 0.704] | Aposteriori: [0.235 0.145] Guess: 0
-Observation: 5 Dice: 0 | Viterbi: [0.431 0.569] Guess: 1 | Alpha: [0.534 0.466] | Beta: [0.521 0.479] | Aposteriori: [0.278 0.223] Guess: 0
-Observation: 2 Dice: 0 | Viterbi: [0.571 0.429] Guess: 0 | Alpha: [0.675 0.325] | Beta: [0.398 0.602] | Aposteriori: [0.269 0.196] Guess: 0
-Observation: 1 Dice: 0 | Viterbi: [0.701 0.299] Guess: 0 | Alpha: [0.775 0.225] | Beta: [0.27 0.73] | Aposteriori: [0.209 0.165] Guess: 0
-Observation: 5 Dice: 0 | Viterbi: [0.452 0.548] Guess: 1 | Alpha: [0.511 0.489] | Beta: [0.482 0.518] | Aposteriori: [0.246 0.253] Guess: 1
-Observation: 5 Dice: 0 | Viterbi: [0.225 0.775] Guess: 1 | Alpha: [0.277 0.723] | Beta: [0.734 0.266] | Aposteriori: [0.203 0.192] Guess: 0
-Observation: 1 Dice: 0 | Viterbi: [0.338 0.662] Guess: 1 | Alpha: [0.457 0.543] | Beta: [0.684 0.316] | Aposteriori: [0.312 0.172] Guess: 0
-Observation: 3 Dice: 0 | Viterbi: [0.473 0.527] Guess: 1 | Alpha: [0.614 0.386] | Beta: [0.608 0.392] | Aposteriori: [0.373 0.151] Guess: 0
-Observation: 0 Dice: 0 | Viterbi: [0.612 0.388] Guess: 0 | Alpha: [0.733 0.267] | Beta: [0.504 0.496] | Aposteriori: [0.369 0.133] Guess: 0
-Observation: 1 Dice: 0 | Viterbi: [0.735 0.265] Guess: 0 | Alpha: [0.813 0.187] | Beta: [0.38 0.62] | Aposteriori: [0.309 0.116] Guess: 0
-Observation: 5 Dice: 0 | Viterbi: [0.494 0.506] Guess: 1 | Alpha: [0.558 0.442] | Beta: [0.628 0.372] | Aposteriori: [0.35  0.164] Guess: 0
-Observation: 3 Dice: 0 | Viterbi: [0.632 0.368] Guess: 0 | Alpha: [0.692 0.308] | Beta: [0.531 0.469] | Aposteriori: [0.367 0.145] Guess: 0
-Observation: 5 Dice: 0 | Viterbi: [0.377 0.623] Guess: 1 | Alpha: [0.424 0.576] | Beta: [0.776 0.224] | Aposteriori: [0.329 0.129] Guess: 0
-Observation: 4 Dice: 0 | Viterbi: [0.516 0.484] Guess: 0 | Alpha: [0.587 0.413] | Beta: [0.753 0.247] | Aposteriori: [0.442 0.102] Guess: 0
-Observation: 1 Dice: 0 | Viterbi: [0.652 0.348] Guess: 0 | Alpha: [0.713 0.287] | Beta: [0.715 0.285] | Aposteriori: [0.51  0.082] Guess: 0
-Observation: 1 Dice: 0 | Viterbi: [0.767 0.233] Guess: 0 | Alpha: [0.8 0.2] | Beta: [0.655 0.345] | Aposteriori: [0.524 0.069] Guess: 0
-Observation: 3 Dice: 0 | Viterbi: [0.853 0.147] Guess: 0 | Alpha: [0.856 0.144] | Beta: [0.567 0.433] | Aposteriori: [0.485 0.063] Guess: 0
-Observation: 5 Dice: 1 | Viterbi: [0.671 0.329] Guess: 0 | Alpha: [0.615 0.385] | Beta: [0.805 0.195] | Aposteriori: [0.495 0.075] Guess: 0
-Observation: 2 Dice: 0 | Viterbi: [0.782 0.218] Guess: 0 | Alpha: [0.733 0.267] | Beta: [0.804 0.196] | Aposteriori: [0.589 0.052] Guess: 0
-Observation: 2 Dice: 0 | Viterbi: [0.863 0.137] Guess: 0 | Alpha: [0.813 0.187] | Beta: [0.801 0.199] | Aposteriori: [0.652 0.037] Guess: 0
-Observation: 2 Dice: 0 | Viterbi: [0.917 0.083] Guess: 0 | Alpha: [0.863 0.137] | Beta: [0.797 0.203] | Aposteriori: [0.688 0.028] Guess: 0
-Observation: 0 Dice: 0 | Viterbi: [0.951 0.049] Guess: 0 | Alpha: [0.893 0.107] | Beta: [0.79 0.21] | Aposteriori: [0.705 0.022] Guess: 0
-Observation: 2 Dice: 0 | Viterbi: [0.969 0.031] Guess: 0 | Alpha: [0.911 0.089] | Beta: [0.777 0.223] | Aposteriori: [0.707 0.02 ] Guess: 0
-Observation: 2 Dice: 0 | Viterbi: [0.969 0.031] Guess: 0 | Alpha: [0.92 0.08] | Beta: [0.755 0.245] | Aposteriori: [0.694 0.02 ] Guess: 0
-Observation: 0 Dice: 0 | Viterbi: [0.969 0.031] Guess: 0 | Alpha: [0.926 0.074] | Beta: [0.717 0.283] | Aposteriori: [0.664 0.021] Guess: 0
-Observation: 4 Dice: 0 | Viterbi: [0.969 0.031] Guess: 0 | Alpha: [0.929 0.071] | Beta: [0.658 0.342] | Aposteriori: [0.611 0.024] Guess: 0
-Observation: 3 Dice: 0 | Viterbi: [0.969 0.031] Guess: 0 | Alpha: [0.931 0.069] | Beta: [0.571 0.429] | Aposteriori: [0.532 0.03 ] Guess: 0
-Observation: 0 Dice: 0 | Viterbi: [0.969 0.031] Guess: 0 | Alpha: [0.932 0.068] | Beta: [0.458 0.542] | Aposteriori: [0.427 0.037] Guess: 0
-Observation: 5 Dice: 0 | Viterbi: [0.864 0.136] Guess: 0 | Alpha: [0.733 0.267] | Beta: [0.711 0.289] | Aposteriori: [0.522 0.077] Guess: 0
-Observation: 0 Dice: 0 | Viterbi: [0.918 0.082] Guess: 0 | Alpha: [0.813 0.187] | Beta: [0.649 0.351] | Aposteriori: [0.528 0.066] Guess: 0
-Observation: 3 Dice: 0 | Viterbi: [0.951 0.049] Guess: 0 | Alpha: [0.863 0.137] | Beta: [0.558 0.442] | Aposteriori: [0.482 0.06 ] Guess: 0
-Observation: 0 Dice: 0 | Viterbi: [0.969 0.031] Guess: 0 | Alpha: [0.893 0.107] | Beta: [0.442 0.558] | Aposteriori: [0.395 0.06 ] Guess: 0
-Observation: 4 Dice: 0 | Viterbi: [0.969 0.031] Guess: 0 | Alpha: [0.911 0.089] | Beta: [0.313 0.687] | Aposteriori: [0.285 0.061] Guess: 0
-Observation: 5 Dice: 0 | Viterbi: [0.864 0.136] Guess: 0 | Alpha: [0.698 0.302] | Beta: [0.545 0.455] | Aposteriori: [0.38  0.137] Guess: 0
-Observation: 3 Dice: 0 | Viterbi: [0.918 0.082] Guess: 0 | Alpha: [0.79 0.21] | Beta: [0.426 0.574] | Aposteriori: [0.337 0.12 ] Guess: 0
-Observation: 1 Dice: 0 | Viterbi: [0.951 0.049] Guess: 0 | Alpha: [0.849 0.151] | Beta: [0.297 0.703] | Aposteriori: [0.253 0.106] Guess: 0
-Observation: 5 Dice: 0 | Viterbi: [0.864 0.136] Guess: 0 | Alpha: [0.606 0.394] | Beta: [0.522 0.478] | Aposteriori: [0.317 0.188] Guess: 0
-Observation: 2 Dice: 1 | Viterbi: [0.918 0.082] Guess: 0 | Alpha: [0.727 0.273] | Beta: [0.4 0.6] | Aposteriori: [0.291 0.164] Guess: 0
-Observation: 0 Dice: 1 | Viterbi: [0.951 0.049] Guess: 0 | Alpha: [0.809 0.191] | Beta: [0.272 0.728] | Aposteriori: [0.22  0.139] Guess: 0
-Observation: 1 Dice: 1 | Viterbi: [0.969 0.031] Guess: 0 | Alpha: [0.861 0.139] | Beta: [0.158 0.842] | Aposteriori: [0.136 0.117] Guess: 0
-Observation: 5 Dice: 1 | Viterbi: [0.864 0.136] Guess: 0 | Alpha: [0.622 0.378] | Beta: [0.278 0.722] | Aposteriori: [0.173 0.273] Guess: 1
-Observation: 5 Dice: 1 | Viterbi: [0.69 0.31] Guess: 0 | Alpha: [0.361 0.639] | Beta: [0.494 0.506] | Aposteriori: [0.178 0.323] Guess: 1
-Observation: 0 Dice: 1 | Viterbi: [0.797 0.203] Guess: 0 | Alpha: [0.534 0.466] | Beta: [0.368 0.632] | Aposteriori: [0.196 0.295] Guess: 1
-Observation: 5 Dice: 1 | Viterbi: [0.58 0.42] Guess: 0 | Alpha: [0.292 0.708] | Beta: [0.615 0.385] | Aposteriori: [0.18  0.273] Guess: 1
-Observation: 2 Dice: 0 | Viterbi: [0.708 0.292] Guess: 0 | Alpha: [0.471 0.529] | Beta: [0.513 0.487] | Aposteriori: [0.242 0.258] Guess: 1
-Observation: 3 Dice: 0 | Viterbi: [0.81 0.19] Guess: 0 | Alpha: [0.626 0.374] | Beta: [0.389 0.611] | Aposteriori: [0.244 0.229] Guess: 0
-Observation: 4 Dice: 0 | Viterbi: [0.882 0.118] Guess: 0 | Alpha: [0.741 0.259] | Beta: [0.262 0.738] | Aposteriori: [0.194 0.191] Guess: 0
-Observation: 5 Dice: 0 | Viterbi: [0.725 0.275] Guess: 0 | Alpha: [0.474 0.526] | Beta: [0.469 0.531] | Aposteriori: [0.222 0.28 ] Guess: 1
-Observation: 2 Dice: 0 | Viterbi: [0.823 0.177] Guess: 0 | Alpha: [0.627 0.373] | Beta: [0.341 0.659] | Aposteriori: [0.214 0.245] Guess: 1
-Observation: 5 Dice: 1 | Viterbi: [0.621 0.379] Guess: 0 | Alpha: [0.365 0.635] | Beta: [0.582 0.418] | Aposteriori: [0.213 0.265] Guess: 1
-Observation: 1 Dice: 1 | Viterbi: [0.742 0.258] Guess: 0 | Alpha: [0.537 0.463] | Beta: [0.471 0.529] | Aposteriori: [0.253 0.245] Guess: 0
-Observation: 5 Dice: 0 | Viterbi: [0.503 0.497] Guess: 0 | Alpha: [0.295 0.705] | Beta: [0.723 0.277] | Aposteriori: [0.213 0.195] Guess: 0
-Observation: 2 Dice: 0 | Viterbi: [0.64 0.36] Guess: 0 | Alpha: [0.474 0.526] | Beta: [0.667 0.333] | Aposteriori: [0.316 0.175] Guess: 0
-Observation: 2 Dice: 0 | Viterbi: [0.758 0.242] Guess: 0 | Alpha: [0.628 0.372] | Beta: [0.584 0.416] | Aposteriori: [0.367 0.155] Guess: 0
-Observation: 2 Dice: 0 | Viterbi: [0.846 0.154] Guess: 0 | Alpha: [0.742 0.258] | Beta: [0.474 0.526] | Aposteriori: [0.352 0.136] Guess: 0
-Observation: 3 Dice: 0 | Viterbi: [0.907 0.093] Guess: 0 | Alpha: [0.819 0.181] | Beta: [0.347 0.653] | Aposteriori: [0.284 0.118] Guess: 0
-Observation: 0 Dice: 1 | Viterbi: [0.945 0.055] Guess: 0 | Alpha: [0.867 0.133] | Beta: [0.223 0.777] | Aposteriori: [0.193 0.103] Guess: 0
-Observation: 5 Dice: 1 | Viterbi: [0.857 0.143] Guess: 0 | Alpha: [0.631 0.369] | Beta: [0.403 0.597] | Aposteriori: [0.254 0.22 ] Guess: 0
-Observation: 3 Dice: 1 | Viterbi: [0.914 0.086] Guess: 0 | Alpha: [0.745 0.255] | Beta: [0.275 0.725] | Aposteriori: [0.205 0.185] Guess: 0
-Observation: 5 Dice: 1 | Viterbi: [0.788 0.212] Guess: 0 | Alpha: [0.478 0.522] | Beta: [0.49 0.51] | Aposteriori: [0.234 0.267] Guess: 1
-Observation: 1 Dice: 1 | Viterbi: [0.867 0.133] Guess: 0 | Alpha: [0.631 0.369] | Beta: [0.364 0.636] | Aposteriori: [0.229 0.235] Guess: 1
-Observation: 4 Dice: 1 | Viterbi: [0.92 0.08] Guess: 0 | Alpha: [0.744 0.256] | Beta: [0.238 0.762] | Aposteriori: [0.177 0.195] Guess: 1
-Observation: 5 Dice: 1 | Viterbi: [0.802 0.198] Guess: 0 | Alpha: [0.478 0.522] | Beta: [0.43 0.57] | Aposteriori: [0.205 0.298] Guess: 1
-Observation: 0 Dice: 1 | Viterbi: [0.877 0.123] Guess: 0 | Alpha: [0.631 0.369] | Beta: [0.301 0.699] | Aposteriori: [0.19  0.258] Guess: 1
-Observation: 5 Dice: 1 | Viterbi: [0.715 0.285] Guess: 0 | Alpha: [0.368 0.632] | Beta: [0.528 0.472] | Aposteriori: [0.194 0.298] Guess: 1
-Observation: 2 Dice: 1 | Viterbi: [0.815 0.185] Guess: 0 | Alpha: [0.54 0.46] | Beta: [0.406 0.594] | Aposteriori: [0.219 0.273] Guess: 1
-Observation: 2 Dice: 1 | Viterbi: [0.886 0.114] Guess: 0 | Alpha: [0.678 0.322] | Beta: [0.278 0.722] | Aposteriori: [0.189 0.232] Guess: 1
-Observation: 3 Dice: 1 | Viterbi: [0.932 0.068] Guess: 0 | Alpha: [0.777 0.223] | Beta: [0.163 0.837] | Aposteriori: [0.127 0.186] Guess: 1
-Observation: 5 Dice: 1 | Viterbi: [0.828 0.172] Guess: 0 | Alpha: [0.514 0.486] | Beta: [0.289 0.711] | Aposteriori: [0.148 0.346] Guess: 1
-Observation: 5 Dice: 1 | Viterbi: [0.628 0.372] Guess: 0 | Alpha: [0.279 0.721] | Beta: [0.51 0.49] | Aposteriori: [0.142 0.354] Guess: 1
-Observation: 3 Dice: 1 | Viterbi: [0.748 0.252] Guess: 0 | Alpha: [0.459 0.541] | Beta: [0.386 0.614] | Aposteriori: [0.177 0.333] Guess: 1
-Observation: 1 Dice: 1 | Viterbi: [0.839 0.161] Guess: 0 | Alpha: [0.616 0.384] | Beta: [0.258 0.742] | Aposteriori: [0.159 0.285] Guess: 1
-Observation: 2 Dice: 1 | Viterbi: [0.902 0.098] Guess: 0 | Alpha: [0.734 0.266] | Beta: [0.147 0.853] | Aposteriori: [0.108 0.227] Guess: 1
-Observation: 5 Dice: 1 | Viterbi: [0.764 0.236] Guess: 0 | Alpha: [0.466 0.534] | Beta: [0.253 0.747] | Aposteriori: [0.118 0.399] Guess: 1
-Observation: 3 Dice: 1 | Viterbi: [0.851 0.149] Guess: 0 | Alpha: [0.621 0.379] | Beta: [0.143 0.857] | Aposteriori: [0.089 0.324] Guess: 1
-Observation: 5 Dice: 1 | Viterbi: [0.667 0.333] Guess: 0 | Alpha: [0.36 0.64] | Beta: [0.244 0.756] | Aposteriori: [0.088 0.484] Guess: 1
-Observation: 5 Dice: 1 | Viterbi: [0.413 0.587] Guess: 1 | Alpha: [0.186 0.814] | Beta: [0.44 0.56] | Aposteriori: [0.082 0.456] Guess: 1
-Observation: 0 Dice: 1 | Viterbi: [0.553 0.447] Guess: 0 | Alpha: [0.367 0.633] | Beta: [0.312 0.688] | Aposteriori: [0.114 0.436] Guess: 1
-Observation: 5 Dice: 1 | Viterbi: [0.304 0.696] Guess: 1 | Alpha: [0.189 0.811] | Beta: [0.542 0.458] | Aposteriori: [0.103 0.371] Guess: 1
-Observation: 3 Dice: 1 | Viterbi: [0.434 0.566] Guess: 1 | Alpha: [0.37 0.63] | Beta: [0.423 0.577] | Aposteriori: [0.157 0.363] Guess: 1
-Observation: 0 Dice: 1 | Viterbi: [0.574 0.426] Guess: 0 | Alpha: [0.542 0.458] | Beta: [0.295 0.705] | Aposteriori: [0.16  0.323] Guess: 1
-Observation: 5 Dice: 0 | Viterbi: [0.322 0.678] Guess: 1 | Alpha: [0.298 0.702] | Beta: [0.518 0.482] | Aposteriori: [0.155 0.338] Guess: 1
-Observation: 2 Dice: 0 | Viterbi: [0.455 0.545] Guess: 1 | Alpha: [0.477 0.523] | Beta: [0.396 0.604] | Aposteriori: [0.189 0.316] Guess: 1
-Observation: 2 Dice: 0 | Viterbi: [0.595 0.405] Guess: 0 | Alpha: [0.63 0.37] | Beta: [0.268 0.732] | Aposteriori: [0.169 0.271] Guess: 1
-Observation: 0 Dice: 0 | Viterbi: [0.721 0.279] Guess: 0 | Alpha: [0.744 0.256] | Beta: [0.155 0.845] | Aposteriori: [0.115 0.216] Guess: 1
-Observation: 5 Dice: 0 | Viterbi: [0.476 0.524] Guess: 1 | Alpha: [0.477 0.523] | Beta: [0.27 0.73] | Aposteriori: [0.129 0.382] Guess: 1
-Observation: 2 Dice: 0 | Viterbi: [0.615 0.385] Guess: 0 | Alpha: [0.63 0.37] | Beta: [0.157 0.843] | Aposteriori: [0.099 0.312] Guess: 1
-Observation: 5 Dice: 0 | Viterbi: [0.36 0.64] Guess: 1 | Alpha: [0.368 0.632] | Beta: [0.274 0.726] | Aposteriori: [0.101 0.459] Guess: 1
-Observation: 3 Dice: 0 | Viterbi: [0.498 0.502] Guess: 1 | Alpha: [0.539 0.461] | Beta: [0.16 0.84] | Aposteriori: [0.086 0.387] Guess: 1
-Observation: 5 Dice: 0 | Viterbi: [0.259 0.741] Guess: 1 | Alpha: [0.296 0.704] | Beta: [0.282 0.718] | Aposteriori: [0.084 0.505] Guess: 1
-Observation: 5 Dice: 0 | Viterbi: [0.109 0.891] Guess: 1 | Alpha: [0.153 0.847] | Beta: [1. 1.] | Aposteriori: [0.153 0.847] Guess: 1
+Observation: 3 Dice: 0 | Viterbi: [0.1 0. ] Guess: 0 | Alpha: [0.1 0. ] | Beta: [0.905 0.095] | Aposteriori: [0.09 0.  ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.053 0.947] | Aposteriori: [0.053 0.   ] Guess: 0
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.905 0.095] | Aposteriori: [0.    0.095] Guess: 1
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.053 0.947] | Aposteriori: [0.053 0.   ] Guess: 0
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.905 0.095] | Aposteriori: [0.    0.095] Guess: 1
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.053 0.947] | Aposteriori: [0.053 0.   ] Guess: 0
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.905 0.095] | Aposteriori: [0.    0.095] Guess: 1
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.053 0.947] | Aposteriori: [0.053 0.   ] Guess: 0
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.905 0.095] | Aposteriori: [0.    0.095] Guess: 1
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.053 0.947] | Aposteriori: [0.053 0.   ] Guess: 0
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.905 0.095] | Aposteriori: [0.    0.095] Guess: 1
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.053 0.947] | Aposteriori: [0.053 0.   ] Guess: 0
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.905 0.095] | Aposteriori: [0.    0.095] Guess: 1
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.053 0.947] | Aposteriori: [0.053 0.   ] Guess: 0
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.905 0.095] | Aposteriori: [0.    0.095] Guess: 1
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.053 0.947] | Aposteriori: [0.053 0.   ] Guess: 0
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.905 0.095] | Aposteriori: [0.    0.095] Guess: 1
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.053 0.947] | Aposteriori: [0.053 0.   ] Guess: 0
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.905 0.095] | Aposteriori: [0.    0.095] Guess: 1
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.053 0.947] | Aposteriori: [0.053 0.   ] Guess: 0
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.905 0.095] | Aposteriori: [0.    0.095] Guess: 1
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.053 0.947] | Aposteriori: [0.053 0.   ] Guess: 0
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.905 0.095] | Aposteriori: [0.    0.095] Guess: 1
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.053 0.947] | Aposteriori: [0.053 0.   ] Guess: 0
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.905 0.095] | Aposteriori: [0.    0.095] Guess: 1
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.053 0.947] | Aposteriori: [0.053 0.   ] Guess: 0
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.905 0.095] | Aposteriori: [0.    0.095] Guess: 1
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.053 0.947] | Aposteriori: [0.053 0.   ] Guess: 0
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.905 0.095] | Aposteriori: [0.    0.095] Guess: 1
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 1 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 4 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 2 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 3 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.905 0.095] | Aposteriori: [0.905 0.   ] Guess: 0
+Observation: 0 Dice: 0 | Viterbi: [1. 0.] Guess: 0 | Alpha: [1. 0.] | Beta: [0.053 0.947] | Aposteriori: [0.053 0.   ] Guess: 0
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [0.053 0.947] | Aposteriori: [0.    0.947] Guess: 1
+Observation: 5 Dice: 1 | Viterbi: [0. 1.] Guess: 1 | Alpha: [0. 1.] | Beta: [1. 1.] | Aposteriori: [0. 1.] Guess: 1
+
++----------------------------+
+|    Baum-Welch Algorithm    |
++----------------------------+
+= EPOCH #0 =
+Transition Matrix: [[0.458 0.542]
+ [0.358 0.642]]
+Initial Dice Probability: [0.915 0.085]
+First Dice: [0.107 0.161 0.075 0.2   0.206 0.25 ]
+Second Dice: [0.117 0.086 0.151 0.108 0.126 0.412]
+Fitness: 149.65528335692835
+
+= EPOCH #1 =
+Transition Matrix: [[0.436 0.564]
+ [0.312 0.688]]
+Initial Dice Probability: [0.902 0.098]
+First Dice: [0.109 0.166 0.075 0.206 0.211 0.232]
+Second Dice: [0.115 0.084 0.148 0.106 0.125 0.421]
+Fitness: 150.00350537621227
+
+= EPOCH #2 =
+Transition Matrix: [[0.416 0.584]
+ [0.261 0.739]]
+Initial Dice Probability: [0.884 0.116]
+First Dice: [0.111 0.175 0.075 0.217 0.22  0.202]
+Second Dice: [0.113 0.083 0.143 0.106 0.124 0.43 ]
+Fitness: 150.10160491473974
+
+= EPOCH #3 =
+Transition Matrix: [[0.407 0.593]
+ [0.207 0.793]]
+Initial Dice Probability: [0.858 0.142]
+First Dice: [0.114 0.187 0.075 0.231 0.231 0.162]
+Second Dice: [0.11  0.083 0.137 0.105 0.124 0.441]
+Fitness: 150.24399765843805
+
+= EPOCH #4 =
+Transition Matrix: [[0.42  0.58 ]
+ [0.153 0.847]]
+Initial Dice Probability: [0.813 0.187]
+First Dice: [0.118 0.203 0.075 0.249 0.245 0.11 ]
+Second Dice: [0.106 0.081 0.131 0.103 0.122 0.456]
+Fitness: 150.57732456508938
+
+= EPOCH #5 =
+Transition Matrix: [[0.482 0.518]
+ [0.106 0.894]]
+Initial Dice Probability: [0.734 0.266]
+First Dice: [0.123 0.219 0.076 0.268 0.258 0.056]
+Second Dice: [0.101 0.077 0.123 0.099 0.118 0.481]
+Fitness: 151.37558606998124
+
+= EPOCH #6 =
+Transition Matrix: [[0.619 0.381]
+ [0.074 0.926]]
+Initial Dice Probability: [0.628 0.372]
+First Dice: [0.129 0.23  0.08  0.281 0.264 0.016]
+Second Dice: [0.091 0.067 0.111 0.088 0.107 0.535]
+Fitness: 153.03322104762069
+
+= EPOCH #7 =
+Transition Matrix: [[0.803 0.197]
+ [0.054 0.946]]
+Initial Dice Probability: [0.584 0.416]
+First Dice: [0.143 0.224 0.1   0.273 0.258 0.002]
+Second Dice: [0.066 0.041 0.083 0.056 0.073 0.681]
+Fitness: 154.94912107504737
+
+= EPOCH #8 =
+Transition Matrix: [[0.875 0.125]
+ [0.031 0.969]]
+Initial Dice Probability: [0.626 0.374]
+First Dice: [1.580e-01 2.039e-01 1.515e-01 2.420e-01 2.445e-01 9.440e-05]
+Second Dice: [0.024 0.007 0.03  0.013 0.02  0.906]
+Fitness: 156.3032585934971
+
+= EPOCH #9 =
+Transition Matrix: [[0.819 0.181]
+ [0.024 0.976]]
+Initial Dice Probability: [0.663 0.337]
+First Dice: [1.615e-01 1.958e-01 1.726e-01 2.318e-01 2.383e-01 4.165e-06]
+Second Dice: [1.061e-02 6.695e-04 4.451e-03 1.100e-03 3.754e-03 9.794e-01]
+Fitness: 162.6774836810894
+
+= EPOCH #10 =
+Transition Matrix: [[0.779 0.221]
+ [0.022 0.978]]
+Initial Dice Probability: [0.672 0.328]
+First Dice: [1.611e-01 1.918e-01 1.746e-01 2.299e-01 2.427e-01 1.628e-07]
+Second Dice: [8.743e-03 1.040e-04 6.925e-04 1.090e-04 5.144e-04 9.898e-01]
+Fitness: 170.1360986590276
+
+= EPOCH #11 =
+Transition Matrix: [[0.763 0.237]
+ [0.021 0.979]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.598e-01 1.897e-01 1.774e-01 2.280e-01 2.451e-01 5.816e-09]
+Second Dice: [8.505e-03 1.977e-05 1.651e-04 1.306e-05 9.309e-05 9.912e-01]
+Fitness: 172.64831160352287
+
+= EPOCH #12 =
+Transition Matrix: [[0.757 0.243]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.592e-01 1.893e-01 1.784e-01 2.275e-01 2.455e-01 2.003e-10]
+Second Dice: [8.594e-03 4.016e-06 4.417e-05 1.677e-06 1.834e-05 9.913e-01]
+Fitness: 173.22436706752228
+
+= EPOCH #13 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.590e-01 1.892e-01 1.787e-01 2.274e-01 2.456e-01 6.809e-12]
+Second Dice: [8.686e-03 8.331e-07 1.223e-05 2.205e-07 3.706e-06 9.913e-01]
+Fitness: 173.39107739598666
+
+= EPOCH #14 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.589e-01 1.892e-01 1.788e-01 2.274e-01 2.457e-01 2.304e-13]
+Second Dice: [8.738e-03 1.739e-07 3.423e-06 2.919e-08 7.543e-07 9.913e-01]
+Fitness: 173.440734538517
+
+= EPOCH #15 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.788e-01 2.274e-01 2.457e-01 7.788e-15]
+Second Dice: [8.762e-03 3.637e-08 9.609e-07 3.874e-09 1.538e-07 9.912e-01]
+Fitness: 173.45428771431943
+
+= EPOCH #16 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 2.631e-16]
+Second Dice: [8.772e-03 7.612e-09 2.700e-07 5.143e-10 3.139e-08 9.912e-01]
+Fitness: 173.45751021788777
+
+= EPOCH #17 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 8.889e-18]
+Second Dice: [8.776e-03 1.593e-09 7.588e-08 6.830e-11 6.406e-09 9.912e-01]
+Fitness: 173.45810669271992
+
+= EPOCH #18 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 3.003e-19]
+Second Dice: [8.777e-03 3.334e-10 2.133e-08 9.071e-12 1.307e-09 9.912e-01]
+Fitness: 173.45814655015752
+
+= EPOCH #19 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 1.014e-20]
+Second Dice: [8.777e-03 6.979e-11 5.995e-09 1.205e-12 2.668e-10 9.912e-01]
+Fitness: 173.4581106982644
+
+= EPOCH #20 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 3.427e-22]
+Second Dice: [8.778e-03 1.461e-11 1.685e-09 1.600e-13 5.444e-11 9.912e-01]
+Fitness: 173.4580844754659
+
+= EPOCH #21 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 1.158e-23]
+Second Dice: [8.778e-03 3.058e-12 4.736e-10 2.125e-14 1.111e-11 9.912e-01]
+Fitness: 173.45807183917998
+
+= EPOCH #22 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 3.911e-25]
+Second Dice: [8.778e-03 6.400e-13 1.331e-10 2.822e-15 2.268e-12 9.912e-01]
+Fitness: 173.45806663951927
+
+= EPOCH #23 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 1.321e-26]
+Second Dice: [8.778e-03 1.340e-13 3.742e-11 3.747e-16 4.627e-13 9.912e-01]
+Fitness: 173.45806468101952
+
+= EPOCH #24 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 4.463e-28]
+Second Dice: [8.778e-03 2.804e-14 1.052e-11 4.976e-17 9.444e-14 9.912e-01]
+Fitness: 173.45806398594468
+
+= EPOCH #25 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 1.508e-29]
+Second Dice: [8.778e-03 5.868e-15 2.957e-12 6.609e-18 1.927e-14 9.912e-01]
+Fitness: 173.4580637500818
+
+= EPOCH #26 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 5.093e-31]
+Second Dice: [8.778e-03 1.228e-15 8.310e-13 8.777e-19 3.933e-15 9.912e-01]
+Fitness: 173.4580636729291
+
+= EPOCH #27 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 1.720e-32]
+Second Dice: [8.778e-03 2.571e-16 2.336e-13 1.166e-19 8.026e-16 9.912e-01]
+Fitness: 173.45806364848696
+
+= EPOCH #28 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 5.812e-34]
+Second Dice: [8.778e-03 5.381e-17 6.566e-14 1.548e-20 1.638e-16 9.912e-01]
+Fitness: 173.45806364096916
+
+= EPOCH #29 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 1.963e-35]
+Second Dice: [8.778e-03 1.126e-17 1.845e-14 2.056e-21 3.343e-17 9.912e-01]
+Fitness: 173.45806363872288
+
+= EPOCH #30 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 6.633e-37]
+Second Dice: [8.778e-03 2.357e-18 5.187e-15 2.730e-22 6.822e-18 9.912e-01]
+Fitness: 173.45806363807006
+
+= EPOCH #31 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 2.241e-38]
+Second Dice: [8.778e-03 4.934e-19 1.458e-15 3.626e-23 1.392e-18 9.912e-01]
+Fitness: 173.45806363788628
+
+= EPOCH #32 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 7.569e-40]
+Second Dice: [8.778e-03 1.033e-19 4.098e-16 4.815e-24 2.841e-19 9.912e-01]
+Fitness: 173.45806363783697
+
+= EPOCH #33 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 2.557e-41]
+Second Dice: [8.778e-03 2.162e-20 1.152e-16 6.395e-25 5.798e-20 9.912e-01]
+Fitness: 173.45806363782415
+
+= EPOCH #34 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 8.638e-43]
+Second Dice: [8.778e-03 4.525e-21 3.238e-17 8.492e-26 1.183e-20 9.912e-01]
+Fitness: 173.45806363782108
+
+= EPOCH #35 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 2.918e-44]
+Second Dice: [8.778e-03 9.471e-22 9.101e-18 1.128e-26 2.415e-21 9.912e-01]
+Fitness: 173.45806363781983
+
+= EPOCH #36 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 9.858e-46]
+Second Dice: [8.778e-03 1.982e-22 2.558e-18 1.498e-27 4.928e-22 9.912e-01]
+Fitness: 173.45806363781983
+
+= EPOCH #37 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 3.330e-47]
+Second Dice: [8.778e-03 4.149e-23 7.191e-19 1.989e-28 1.006e-22 9.912e-01]
+Fitness: 173.45806363781983
+
+= EPOCH #38 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 1.125e-48]
+Second Dice: [8.778e-03 8.684e-24 2.021e-19 2.642e-29 2.052e-23 9.912e-01]
+Fitness: 173.45806363781983
+
+= EPOCH #39 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 3.800e-50]
+Second Dice: [8.778e-03 1.818e-24 5.681e-20 3.508e-30 4.189e-24 9.912e-01]
+Fitness: 173.45806363781983
+
+= EPOCH #40 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 1.284e-51]
+Second Dice: [8.778e-03 3.805e-25 1.597e-20 4.659e-31 8.548e-25 9.912e-01]
+Fitness: 173.45806363781983
+
+= EPOCH #41 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 4.337e-53]
+Second Dice: [8.778e-03 7.963e-26 4.488e-21 6.187e-32 1.744e-25 9.912e-01]
+Fitness: 173.45806363781983
+
+= EPOCH #42 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 1.465e-54]
+Second Dice: [8.778e-03 1.667e-26 1.262e-21 8.217e-33 3.560e-26 9.912e-01]
+Fitness: 173.45806363781983
+
+= EPOCH #43 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 4.949e-56]
+Second Dice: [8.778e-03 3.489e-27 3.546e-22 1.091e-33 7.265e-27 9.912e-01]
+Fitness: 173.45806363781983
+
+= EPOCH #44 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 1.672e-57]
+Second Dice: [8.778e-03 7.302e-28 9.968e-23 1.449e-34 1.483e-27 9.912e-01]
+Fitness: 173.45806363781983
+
+= EPOCH #45 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 5.648e-59]
+Second Dice: [8.778e-03 1.528e-28 2.802e-23 1.925e-35 3.026e-28 9.912e-01]
+Fitness: 173.45806363781983
+
+= EPOCH #46 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 1.908e-60]
+Second Dice: [8.778e-03 3.199e-29 7.875e-24 2.556e-36 6.175e-29 9.912e-01]
+Fitness: 173.45806363781983
+
+= EPOCH #47 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 6.446e-62]
+Second Dice: [8.778e-03 6.696e-30 2.214e-24 3.394e-37 1.260e-29 9.912e-01]
+Fitness: 173.45806363781983
+
+= EPOCH #48 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 2.177e-63]
+Second Dice: [8.778e-03 1.402e-30 6.222e-25 4.508e-38 2.572e-30 9.912e-01]
+Fitness: 173.45806363781983
+
+= EPOCH #49 =
+Transition Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
+Initial Dice Probability: [0.673 0.327]
+First Dice: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 7.356e-65]
+Second Dice: [8.778e-03 2.933e-31 1.749e-25 5.987e-39 5.248e-31 9.912e-01]
+Fitness: 173.45806363781983
+
++--------------------------+
+|    Baum-Welch Summary    |
++--------------------------+
+Dice #1: [1.588e-01 1.892e-01 1.789e-01 2.274e-01 2.457e-01 7.356e-65]
+Dice #2: [8.778e-03 2.933e-31 1.749e-25 5.987e-39 5.248e-31 9.912e-01]
+Initial Dice Probabilities: [0.673 0.327]
+Transision Matrix: [[0.755 0.245]
+ [0.02  0.98 ]]
 ```
 
 ## Resources
+
 Great explanation of Viterbi Algorithm (starting about 22:40):  
 https://www.youtube.com/watch?v=kqSzLo9fenk
 
 Simple implementation for weather example from above video:  
 https://github.com/luisguiserrano/hmm/blob/master/Simple%20HMM.ipynb
 
+Great slides with visual interpretation of all equations:
+http://www.cs.tut.fi/~sgn24006/PDF/L08-HMMs.pdf
+
 Good explanation of Forward & Backward algorithms:  
 https://www.youtube.com/watch?v=9yl4XGp5OEg
-
-Great slides with visual interpretation of all equations:  
-http://www.cs.tut.fi/~sgn24006/PDF/L08-HMMs.pdf
 
 Tutorial on Hidden Markov Models:  
 http://www.stat.columbia.edu/~liam/teaching/neurostat-fall17/papers/hmm/rabiner.pdf

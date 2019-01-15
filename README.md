@@ -756,7 +756,7 @@ https://www.youtube.com/watch?v=kqSzLo9fenk
 Simple implementation for weather example from above video:  
 https://github.com/luisguiserrano/hmm/blob/master/Simple%20HMM.ipynb
 
-Great slides with visual interpretation of all equations:
+Great slides with visual interpretation of all equations:  
 http://www.cs.tut.fi/~sgn24006/PDF/L08-HMMs.pdf
 
 Good explanation of Forward & Backward algorithms:  

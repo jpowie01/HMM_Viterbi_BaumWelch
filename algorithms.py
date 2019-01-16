@@ -130,10 +130,10 @@ def baum_welch(multiple_observations: List[np.ndarray], epochs: int = 50) -> Tup
     # Train our Hidden Markov Model in epochs
     for epoch in range(epochs):
         # Prepare placeholders for collecting computations from all observations
-        observation_transition_matrix = np.zeros((2, 2))
-        observation_initial_dice_probability = np.zeros(2)
-        observation_first_dice_probabilities = np.zeros(6)
-        observation_second_dice_probabilities = np.zeros(6)
+        new_transition_matrix = np.zeros((2, 2))
+        new_initial_dice_probability = np.zeros(2)
+        new_first_dice_probabilities = np.zeros(6)
+        new_second_dice_probabilities = np.zeros(6)
         fitness = 0
 
         # In each epoch walk through all collected observations
@@ -173,28 +173,28 @@ def baum_welch(multiple_observations: List[np.ndarray], epochs: int = 50) -> Tup
                 gamma[t, 1] = np.sum(ksi[t, 1, :])
 
             # Compute initial probabilities for this observation and add it for later use
-            observation_initial_dice_probability += gamma[0] / np.sum(gamma[0])
+            new_initial_dice_probability += gamma[0] / np.sum(gamma[0])
 
             # Compute transition matrix and add it up to for later use
-            observation_transition_matrix[0, 0] += np.sum(ksi[:, 0, 0]) / np.sum(gamma[:, 0]) / probability_of_observation
-            observation_transition_matrix[0, 1] += np.sum(ksi[:, 0, 1]) / np.sum(gamma[:, 0]) / probability_of_observation
-            observation_transition_matrix[1, 0] += np.sum(ksi[:, 1, 0]) / np.sum(gamma[:, 1]) / probability_of_observation
-            observation_transition_matrix[1, 1] += np.sum(ksi[:, 1, 1]) / np.sum(gamma[:, 1]) / probability_of_observation
+            new_transition_matrix[0, 0] += np.sum(ksi[:, 0, 0]) / np.sum(gamma[:, 0]) / probability_of_observation
+            new_transition_matrix[0, 1] += np.sum(ksi[:, 0, 1]) / np.sum(gamma[:, 0]) / probability_of_observation
+            new_transition_matrix[1, 0] += np.sum(ksi[:, 1, 0]) / np.sum(gamma[:, 1]) / probability_of_observation
+            new_transition_matrix[1, 1] += np.sum(ksi[:, 1, 1]) / np.sum(gamma[:, 1]) / probability_of_observation
 
             # Compute probabilities for each dice (hidden states) and collect them for later use
             for wall in range(6):
                 # Emission probabilities can be computed as expected number of times in state `j` and observing `k-th` wall on dice
                 # divided by expected number of times in state `j`
-                observation_first_dice_probabilities[wall] = np.sum(np.take(aposteriori_probabilities[:, 0], np.where(observations == wall)))
-                observation_first_dice_probabilities[wall] /= np.sum(aposteriori_probabilities[:, 0]) / probability_of_observation
-                observation_second_dice_probabilities[wall] = np.sum(np.take(aposteriori_probabilities[:, 1], np.where(observations == wall))) 
-                observation_second_dice_probabilities[wall] /= np.sum(aposteriori_probabilities[:, 1]) / probability_of_observation
+                new_first_dice_probabilities[wall] = np.sum(np.take(aposteriori_probabilities[:, 0], np.where(observations == wall)))
+                new_first_dice_probabilities[wall] /= np.sum(aposteriori_probabilities[:, 0]) / probability_of_observation
+                new_second_dice_probabilities[wall] = np.sum(np.take(aposteriori_probabilities[:, 1], np.where(observations == wall)))
+                new_second_dice_probabilities[wall] /= np.sum(aposteriori_probabilities[:, 1]) / probability_of_observation
 
         # Normalize all values for probabilities, so that they won't blow up quickly...
-        initial_dice_probability = observation_initial_dice_probability / np.sum(observation_initial_dice_probability)
-        transition_matrix = observation_transition_matrix / np.sum(observation_transition_matrix, axis=1)[:, None]
-        first_dice_probabilities = observation_first_dice_probabilities / observation_first_dice_probabilities.sum()
-        second_dice_probabilities = observation_second_dice_probabilities / observation_second_dice_probabilities.sum()
+        initial_dice_probability = new_initial_dice_probability / np.sum(new_initial_dice_probability)
+        transition_matrix = new_transition_matrix / np.sum(new_transition_matrix, axis=1)[:, None]
+        first_dice_probabilities = new_first_dice_probabilities / np.sum(new_first_dice_probabilities)
+        second_dice_probabilities = new_second_dice_probabilities / np.sum(new_second_dice_probabilities)
 
         # Put dice probabilities into Dice instances
         first_dice = dice.Dice(first_dice_probabilities)

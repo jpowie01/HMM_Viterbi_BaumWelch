@@ -148,8 +148,8 @@ def baum_welch(multiple_observations: List[np.ndarray], epochs: int = 50) -> Tup
             aposteriori_probabilities = np.multiply(alpha_probabilities, beta_probabilities)
 
             # Collect probabilities for each observations which can be defined as P(O|parameters)
-            probability_of_observation = initial_dice_probability[0] * beta_probabilities[0][0]
-                                        + initial_dice_probability[1] * beta_probabilities[0][1]
+            probability_of_observation = initial_dice_probability[0] * beta_probabilities[0][0] \
+                                         + initial_dice_probability[1] * beta_probabilities[0][1]
             fitness += probability_of_observation
 
             # KSI (Greek Letter) parameters are known as probability of being in state `i` at time `t` and in
@@ -158,13 +158,13 @@ def baum_welch(multiple_observations: List[np.ndarray], epochs: int = 50) -> Tup
             for t in range(observations_rows-1):
                 denominator = (alpha_probabilities[t][0] * beta_probabilities[t][0] + alpha_probabilities[t][1] * beta_probabilities[t][1])
                 ksi[t, 0, 0] = (alpha_probabilities[t][0] * transition_matrix[0, 0]
-                                 * first_dice_probabilities[observations[t+1]] * beta_probabilities[t+1][0]) / denominator
+                                * first_dice_probabilities[observations[t+1]] * beta_probabilities[t+1][0]) / denominator
                 ksi[t, 0, 1] = (alpha_probabilities[t][0] * transition_matrix[0, 1]
-                                 * second_dice_probabilities[observations[t+1]] * beta_probabilities[t+1][1]) / denominator
+                                * second_dice_probabilities[observations[t+1]] * beta_probabilities[t+1][1]) / denominator
                 ksi[t, 1, 0] = (alpha_probabilities[t][1] * transition_matrix[1, 0]
-                                 * first_dice_probabilities[observations[t+1]] * beta_probabilities[t+1][0]) / denominator
+                                * first_dice_probabilities[observations[t+1]] * beta_probabilities[t+1][0]) / denominator
                 ksi[t, 1, 1] = (alpha_probabilities[t][1] * transition_matrix[1, 1]
-                                 * second_dice_probabilities[observations[t+1]] * beta_probabilities[t+1][1]) / denominator
+                                * second_dice_probabilities[observations[t+1]] * beta_probabilities[t+1][1]) / denominator
 
             # Gamma (another Greek Letter) parameters stands for probability of being in state `i` at time `t`
             gamma = np.zeros([observations_rows, 2])
@@ -172,7 +172,7 @@ def baum_welch(multiple_observations: List[np.ndarray], epochs: int = 50) -> Tup
                 gamma[t, 0] = np.sum(ksi[t, 0, :])
                 gamma[t, 1] = np.sum(ksi[t, 1, :])
 
-            # Compute initial probabilites for this observation and add it for later use
+            # Compute initial probabilities for this observation and add it for later use
             observation_initial_dice_probability += gamma[0] / np.sum(gamma[0])
 
             # Compute transition matrix and add it up to for later use

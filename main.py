@@ -3,7 +3,6 @@ import numpy as np
 import algorithms
 import croupier
 import dice
-from dice_type import DiceType, AVAILABLE_DICES
 
 np.set_printoptions(precision=3)
 
@@ -60,7 +59,7 @@ print('+----------------------------+')
 print('|    Baum-Welch Algorithm    |')
 print('+----------------------------+')
 
-# Pass training observations to Baum-Welch algorightm
+# Pass training observations to Baum-Welch algorithm
 multiple_observations = [my_croupier.get_observations(OBSERVATION_LENGTH)[0] for _ in range(OBSERVATIONS)]
 first_dice, second_dice, initial_dice_probability, transition_matrix = algorithms.baum_welch(multiple_observations)
 
